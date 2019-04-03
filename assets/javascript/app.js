@@ -28,7 +28,7 @@ var item = $("#prodSearch")
               method: "POST",
               timeout: 0,
               headers: {
-                "X-API-CLIENT-ID": "RMNDONTFHMUUTXZP",
+                "X-API-CLIENT-ID": "NYODHSXYXONWCIZP",
                 "Content-Type": "application/json",
                 "cache-control": "no-cache",
               "Postman-Token": "ee780696-5614-44fd-8d0e-2d815309f864"
