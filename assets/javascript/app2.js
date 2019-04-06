@@ -1,48 +1,59 @@
 //Ford's YouTube API Code
 
-function buildQueryURL() {
-  
-  //submit the term in the text-input to YouTube API
-  var q = $("#prodSearch")
-  .val()
-  .trim();
-  // ...but stringify it first
-  // var q = JSON.stringify(query);
-  
-  // this is a required parameter and contains what we need
-  var part = "snippet";
-  
-  // don't need any channels or playlists
-  var type = "video";
-  
-  // personal api key
-  var key = "AIzaSyBCUJS6cSN78A5GwyfEMnLgua52afC2CgQ";
-  
-  // All combined for ajax request
-  var queryURL = "https://www.googleapis.com/youtube/v3/search?" + "part=" + part + "&q=" + q + "&type=" + type + "&key=" + key;
-  console.log(queryURL);
 
-}
-
-$("#submit").on("click", function() {
+$("#submit").on("click", function () {
   event.preventDefault();
 
-// empty the divs of prior results
-// may need to remove since this is in other js file
- $(".app-content").empty();
-
-// build query url inside click function for ajax
- var queryURL = buildQueryURL();
- 
+  $(".app-content").empty();
  
 
-// perform ajax request
-$.ajax({
+  $.ajaxSetup({
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("X-RapidAPI-Host", "contextualwebsearch-websearch-v1.p.rapidapi.com");
+      xhr.setRequestHeader("X-RapidAPI-Key", "cf4c14600fmsh28f5e03d84eb654p195c42jsndb2ed0fb33e2");
+    },
+  });
+  
+  var q = $("#prodSearch")
+    .val()
+    .trim();
+
+
+  var queryURL = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI?autoCorrect=true&pageNumber=1&pageSize=10&q=" + q + "&safeSearch=false";
+  
+  $.ajax({
   url: queryURL,
-    method: "GET"
-})
-.then(function(response) {
-  var results = response;
-  console.log(results);
-})
-});
+  method: "GET",
+  }).then(function (response) {
+    
+    var results = response.value;
+    
+    for (var i = 0; i < results.length; i++) {
+      
+     var csDiv = $("<div>");
+     
+      var csTitle = results[i].title;
+      var csDescription = results[i].description;
+      var csURL = results[i].url;
+      
+      var titleHeading = $("<h3>").html(csTitle);
+      var p = $("<p>").html(csDescription);
+      var pURL = $("<h4>").text(csURL);
+      
+      csDiv.append(titleHeading);
+      csDiv.append(p);
+      csDiv.append(pURL);
+      
+      $("#context-content").prepend(csDiv);
+      
+    }
+    
+    
+    console.log(response);
+    console.log(response.value);
+    console.log(response.value[0].title);
+    console.log(response.value[0].url);
+  });
+  
+  });
+
