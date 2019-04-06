@@ -5,8 +5,8 @@ $("#submit").on("click", function () {
   event.preventDefault();
 
   $(".app-content").empty();
-  
-  
+ 
+
   $.ajaxSetup({
     beforeSend: function (xhr) {
       xhr.setRequestHeader("X-RapidAPI-Host", "contextualwebsearch-websearch-v1.p.rapidapi.com");
@@ -17,6 +17,7 @@ $("#submit").on("click", function () {
   var q = $("#prodSearch")
     .val()
     .trim();
+
 
   var queryURL = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/WebSearchAPI?autoCorrect=true&pageNumber=1&pageSize=10&q=" + q + "&safeSearch=false";
   
@@ -53,7 +54,6 @@ $("#submit").on("click", function () {
     console.log(response.value[0].title);
     console.log(response.value[0].url);
   });
-
   
   });
 
